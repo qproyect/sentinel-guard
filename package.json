@@ -1,0 +1,50 @@
+{
+  "name": "sentinel-guard",
+  "version": "1.0.0",
+  "description": "Zero-dependency TypeScript library to harden untrusted content before reaching LLMs or databases",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "lint": "eslint . --ext .ts",
+    "format:check": "prettier --check \"**/*.{ts,json,md,yml}\"",
+    "format": "prettier --write \"**/*.{ts,json,md,yml}\"",
+    "example:rag": "tsx examples/rag-context.ts"
+  },
+  "keywords": [
+    "security",
+    "llm",
+    "prompt-injection",
+    "sanitization",
+    "zero-dependencies",
+    "rag"
+  ],
+  "author": "Lucas F. Meneses",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.1",
+    "prettier": "^3.5.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  }
+}
