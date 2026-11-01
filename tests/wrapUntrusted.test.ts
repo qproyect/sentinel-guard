@@ -34,6 +34,27 @@ describe('wrapUntrusted & delimiter escaping', () => {
     );
   });
 
+  it('sanitizes malicious nonce characters to prevent breaking delimiter tags', () => {
+    const result = wrapUntrusted('some text', {
+      tag: 'custom_tag',
+      nonce: 'x><evil',
+    });
+
+    expect(result.nonce).toBe('xevil');
+    expect(result.openTag).toBe('<custom_tag_xevil>');
+    expect(result.closeTag).toBe('</custom_tag_xevil>');
+    expect(result.openTag).not.toContain('><');
+    expect(result.closeTag).not.toContain('><');
+
+    // Falls back to a random 16-hex-char nonce when sanitized nonce is empty
+    const fallbackResult = wrapUntrusted('some text', {
+      nonce: '><><!"#$%',
+    });
+    expect(fallbackResult.nonce).toMatch(/^[a-f0-9]{16}$/);
+    expect(fallbackResult.openTag).toBe(`<untrusted_content_${fallbackResult.nonce}>`);
+    expect(fallbackResult.closeTag).toBe(`</untrusted_content_${fallbackResult.nonce}>`);
+  });
+
   it('generates unique nonces across separate calls', () => {
     const res1 = wrapUntrusted('test');
     const res2 = wrapUntrusted('test');
