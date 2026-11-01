@@ -114,7 +114,8 @@ export function wrapUntrusted(
   // Sanitize base tag name: alphanumeric, hyphens, underscores only
   const tag = rawTag.replace(/[^a-zA-Z0-9_-]/g, '_');
 
-  const nonce = options.nonce?.trim() || randomBytes(8).toString('hex');
+  const sanitizedNonce = options.nonce?.replace(/[^a-zA-Z0-9]/g, '');
+  const nonce = sanitizedNonce || randomBytes(8).toString('hex');
   const fullTag = `${tag}_${nonce}`;
   const openTag = `<${fullTag}>`;
   const closeTag = `</${fullTag}>`;
